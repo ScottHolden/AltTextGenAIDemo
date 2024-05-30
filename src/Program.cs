@@ -2,10 +2,11 @@ using AltTextGenAi;
 using Azure.AI.OpenAI;
 using Azure.Core;
 using Azure.Identity;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddOpenTelemetry().UseAzureMonitor();
 builder.Services.AddHttpClient();
 builder.Services.BindConfiguration<AzureOpenAIConfig>("aoai");
 builder.Services.AddSingleton<AltTextGenerator>();
