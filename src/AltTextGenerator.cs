@@ -40,7 +40,7 @@ internal class AltTextGenerator(
 
     public async Task<AltText> FromImageAsync(ContentPayload data, string supportingText)
     {
-        _logger.LogInformation("Image is {Size} bytes", data.Data.Length);
+        _logger.LogInformation("Image is {Size} bytes as {ContentType}", data.Data.Length, data.ContentType);
 
         var supportingPrompt = string.IsNullOrWhiteSpace(supportingText) ? "" : string.Format(SupportingPromptFormat, supportingText);
 

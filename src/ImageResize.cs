@@ -13,8 +13,17 @@ internal static class ImageResize
             Size = new Size(width, height),
             Mode = ResizeMode.Max
         }));
-        using var output = new MemoryStream();
-        image.SaveAsJpeg(output);
-        return ContentPayload.FromPng(output.ToArray());
+
+        // Find the smallest supported format
+
+        using var pngOutput = new MemoryStream();
+        image.SaveAsPng(pngOutput);
+
+        using var jpegOutput = new MemoryStream();
+        image.SaveAsJpeg(jpegOutput);
+
+        return pngOutput.Length < jpegOutput.Length
+            ? new ContentPayload(pngOutput.ToArray(), "image/png")
+            : new ContentPayload(jpegOutput.ToArray(), "image/jpeg");
     }
 }
