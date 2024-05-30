@@ -6,7 +6,11 @@ using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddOpenTelemetry().UseAzureMonitor();
+
+if (!string.IsNullOrWhiteSpace(builder.Configuration.GetValue<string?>("APPLICATIONINSIGHTS_CONNECTION_STRING")))
+{
+    builder.Services.AddOpenTelemetry().UseAzureMonitor();
+}
 builder.Services.AddHttpClient();
 builder.Services.BindConfiguration<AzureOpenAIConfig>("aoai");
 builder.Services.AddSingleton<AltTextGenerator>();
@@ -25,8 +29,9 @@ app.UseHttpsRedirection();
 
 if (app.Configuration.GetValue<bool?>("appEnabled") ?? false)
 {
-    app.UseStaticFiles();
+    app.Logger.LogInformation("Static app is enabled");
     app.UseDefaultFiles();
+    app.UseStaticFiles();
 }
 
 app.MapPost("api/generate", async (HttpContext context, [FromServices] AltTextGenerator generator, [FromServices] ILogger<Program> logger) =>
