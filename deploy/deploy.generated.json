@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.27.1.19265",
-      "templateHash": "4648192974330979709"
+      "templateHash": "11617910640570062548"
     }
   },
   "parameters": {
@@ -56,6 +56,13 @@
       "defaultValue": "",
       "metadata": {
         "description": "The deployment name the app should use, it needs to support vision, so GPT-4v or GPT-4-Turbo or GPT-4o, only required when deployAzureOpenAI is set to false"
+      }
+    },
+    "enableDeveloperPage": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "If the developer page should be enabled or not"
       }
     },
     "tags": {
@@ -199,6 +206,10 @@
                 {
                   "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
                   "value": "[reference(resourceId('Microsoft.Insights/components', format(variables('uniqueNameFormat'), 'insights')), '2020-02-02-preview').ConnectionString]"
+                },
+                {
+                  "name": "appEnabled",
+                  "value": "[if(parameters('enableDeveloperPage'), 'true', 'false')]"
                 }
               ]
             }

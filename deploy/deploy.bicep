@@ -19,6 +19,9 @@ param azureOpenAIEndpoint string = ''
 @description('The deployment name the app should use, it needs to support vision, so GPT-4v or GPT-4-Turbo or GPT-4o, only required when deployAzureOpenAI is set to false')
 param azureOpenAIDeploymentName string = ''
 
+@description('If the developer page should be enabled or not')
+param enableDeveloperPage bool = true
+
 @description('Tags to apply to all deployed resources')
 param tags object = {}
 
@@ -134,6 +137,10 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
               value: appInsights.properties.ConnectionString
+            }
+            {
+              name: 'appEnabled'
+              value: enableDeveloperPage ? 'true' : 'false'
             }
           ]
         }
