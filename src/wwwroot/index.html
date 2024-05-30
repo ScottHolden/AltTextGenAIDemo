@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alt Text GenAI Demo - Developer UI</title>
+    <style>
+        html, body, input, textarea, button {
+            font-family: Arial, sans-serif;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .left, .right {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            min-height: 500px;
+        }
+        .left {
+            background-color: #ddd;
+        }
+        .right {
+            background-color: #eee;
+            text-align: center;
+            padding-top: 60px;
+        }
+        .left h1 {
+            margin: 20px 0 60px;
+        }
+        .left input, .left textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .left textarea {
+            margin-top: 40px;
+            resize: vertical;
+        }
+        .left button {
+            padding: 10px 20px;
+            background-color: #0078e7;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .right img {
+            max-height: 250px;
+            max-width: 100%;
+            margin: auto;
+            display: none;
+        }
+        .right p {
+            display: none;
+        }
+        .spinner {
+            border: 16px solid #fff;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin: auto;
+            animation: spin 2s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <form class="left">
+            <h1>Alt Text Generator</h1>
+            <input type="text" id="imageUrl" placeholder="Image URL">
+            <span>OR</span>
+            <input type="file" id="imageFile" accept="image/*">
+            <br>
+            <textarea id="supportingText" placeholder="Supporting text (optional)"></textarea>
+            <button type="submit" id="generateButton">Generate Alt Text</button>
+        </form>
+        <div class="right">
+            <img id="image" src="" alt="Image">
+            <p id="imageText">An image</p>
+            <div id="spinner" class="spinner"></div>
+        </div>
+    </div>
+
+    <script>
+        (()=>{
+            const imageFile = document.getElementById("imageFile");
+            const imageUrl = document.getElementById("imageUrl");
+            const supportingText = document.getElementById("supportingText");
+            const image = document.getElementById("image");
+            const imageText = document.getElementById("imageText");
+            const spinner = document.getElementById("spinner");
+
+            document.getElementById("generateButton").addEventListener("click", (e)=>{
+                e.preventDefault();
+                // Prefer image file over URL
+                let url = "/api/generate";
+                let contentType = "";
+                let body = null;
+                if (imageFile.files[0])
+                {
+                    image.src = URL.createObjectURL(imageFile.files[0]);
+                    url += "?supportingText=" + encodeURIComponent(supportingText.value);
+                    contentType = imageFile.files[0].type;
+                    body = imageFile.files[0];
+                }
+                else if (imageUrl.value)
+                {
+                    image.src = imageUrl.value;
+                    contentType = "application/json";
+                    body = JSON.stringify({imageUrl: imageUrl.value, supportingText: supportingText.value});
+                }
+                else
+                {
+                    return;
+                }
+
+                // Set up pre-generation UI
+                image.style.display = "block";
+                imageText.innerText = "";
+                imageText.style.display = "block";
+                spinner.style.display = "block";
+
+                // Generate alt text
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": contentType
+                    },
+                    body: body
+                })
+                .then(response => response.json())
+                .then(data => {
+                    imageText.innerText = data.content;
+                    console.log(data);
+                })
+                .catch(error => {
+                    imageText.innerText = "Whoops! Something went wrong, check the console for more information.";
+                    console.error(error);
+                })
+                .finally(() => {
+                    spinner.style.display = "none";
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
