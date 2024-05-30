@@ -1,0 +1,41 @@
+@AltTextGenAI_HostAddress = http://localhost:5091
+
+# Example 1: Alt text with no image hints
+POST {{AltTextGenAI_HostAddress}}/api/generate
+Accept: application/json
+Content-Type: application/json
+
+{
+    "imageUrl": "https://raw.githubusercontent.com/ScottHolden/AltTextGenAIDemo/main/media/demo-image-multiobject.jpg"
+}
+
+
+###
+# Example 2: Alt text with product title as image hints
+POST {{AltTextGenAI_HostAddress}}/api/generate
+Accept: application/json
+Content-Type: application/json
+
+{
+    "imageUrl": "https://raw.githubusercontent.com/ScottHolden/AltTextGenAIDemo/main/media/demo-image-multiobject.jpg",
+    "supportingText": "Coffee Maker"
+}
+
+
+###
+# Example 3: Passing in the image within the request body
+POST {{AltTextGenAI_HostAddress}}/api/generate
+Accept: application/json
+Content-Type: image/png
+
+< ./media/demo-image-multiobject.jpg
+
+
+###
+# Example 4: Passing in the image within the request body and specifying an image hint
+@ImageHint = Coffee Maker
+POST {{AltTextGenAI_HostAddress}}/api/generate?supportingText={{ImageHint}}
+Accept: application/json
+Content-Type: image/png
+
+< ./media/demo-image-multiobject.jpg
