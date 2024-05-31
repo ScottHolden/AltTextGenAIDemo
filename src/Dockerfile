@@ -5,15 +5,14 @@ EXPOSE 8080
 EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
-COPY ["src/AltTextGenAI.csproj", "src/"]
-RUN dotnet restore "src/AltTextGenAI.csproj"
-WORKDIR src
+WORKDIR /src
+COPY "AltTextGenAI.csproj" .
+RUN dotnet restore "AltTextGenAI.csproj"
 COPY . .
-RUN dotnet build "AltTextGenAI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "AltTextGenAI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AltTextGenAI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "AltTextGenAI.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
