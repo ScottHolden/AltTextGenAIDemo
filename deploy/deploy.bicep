@@ -122,7 +122,7 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
       revisionSuffix: containerAppRevisionSuffix
       containers: [
         {
-          name: 'wikiai'
+          name: 'alttextdemo'
           image: containerAppImage
           resources: {
             cpu: json('.25')

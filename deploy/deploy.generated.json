@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.27.1.19265",
-      "templateHash": "12810856759100368860"
+      "templateHash": "1464582073136542539"
     }
   },
   "parameters": {
@@ -195,7 +195,7 @@
           "revisionSuffix": "[parameters('containerAppRevisionSuffix')]",
           "containers": [
             {
-              "name": "wikiai",
+              "name": "alttextdemo",
               "image": "[parameters('containerAppImage')]",
               "resources": {
                 "cpu": "[json('.25')]",
