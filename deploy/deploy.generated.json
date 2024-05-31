@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.27.1.19265",
-      "templateHash": "11617910640570062548"
+      "templateHash": "12810856759100368860"
     }
   },
   "parameters": {
@@ -70,6 +70,13 @@
       "defaultValue": {},
       "metadata": {
         "description": "Tags to apply to all deployed resources"
+      }
+    },
+    "containerAppRevisionSuffix": {
+      "type": "string",
+      "defaultValue": "[uniqueString(newGuid())]",
+      "metadata": {
+        "description": "The revision name for incremental deployments, you can leave as-is for one off deploys"
       }
     }
   },
@@ -185,7 +192,7 @@
           }
         },
         "template": {
-          "revisionSuffix": "release",
+          "revisionSuffix": "[parameters('containerAppRevisionSuffix')]",
           "containers": [
             {
               "name": "wikiai",

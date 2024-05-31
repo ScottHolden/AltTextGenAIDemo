@@ -1,6 +1,8 @@
 # Alt Text GenAI Demo
 A small example of building an API that can take in an image and generate alt-text for it, using supporting text to focus the description.
 
+[![Deploy To Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FScottHolden%2FAltTextGenAIDemo%2Fmain%2Fdeploy%2Fdeploy.generated.json)
+
 ## How it works
 1. An image is uploaded (or a URL to an image is provided)
 1. The image is resized
