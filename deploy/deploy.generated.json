@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.27.1.19265",
-      "templateHash": "1464582073136542539"
+      "templateHash": "7934428948071749506"
     }
   },
   "parameters": {
@@ -70,13 +70,6 @@
       "defaultValue": {},
       "metadata": {
         "description": "Tags to apply to all deployed resources"
-      }
-    },
-    "containerAppRevisionSuffix": {
-      "type": "string",
-      "defaultValue": "[uniqueString(newGuid())]",
-      "metadata": {
-        "description": "The revision name for incremental deployments, you can leave as-is for one off deploys"
       }
     }
   },
@@ -192,7 +185,6 @@
           }
         },
         "template": {
-          "revisionSuffix": "[parameters('containerAppRevisionSuffix')]",
           "containers": [
             {
               "name": "alttextdemo",

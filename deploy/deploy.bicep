@@ -25,9 +25,6 @@ param enableDeveloperPage bool = true
 @description('Tags to apply to all deployed resources')
 param tags object = {}
 
-@description('The revision name for incremental deployments, you can leave as-is for one off deploys')
-param containerAppRevisionSuffix string = uniqueString(newGuid())
-
 var uniqueNameFormat = '${prefix}-{0}-${uniqueString(resourceGroup().id, prefix)}'
 
 resource openai 'Microsoft.CognitiveServices/accounts@2023-10-01-preview' = if (deployAzureOpenAI) {
@@ -119,7 +116,6 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
       }
     }
     template: {
-      revisionSuffix: containerAppRevisionSuffix
       containers: [
         {
           name: 'alttextdemo'
