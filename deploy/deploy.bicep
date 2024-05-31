@@ -8,7 +8,7 @@ param azureOpenAILocation string = 'eastus'
 param prefix string = 'alttext'
 
 @description('The container image to run')
-param containerAppImage string = 'ghcr.io/scottholden/alttextgenaidemo:release'
+param containerAppImage string = 'ghcr.io/scottholden/alttextgenaidemo:sha-94e7abf'
 
 @description('When set to true an Azure OpenAI resource will be deployed, a GPT-4-Turbo deployment will be created, and RBAC configured. If this is set to')
 param deployAzureOpenAI bool = true

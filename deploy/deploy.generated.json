@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.27.1.19265",
-      "templateHash": "7934428948071749506"
+      "templateHash": "6922788848600475459"
     }
   },
   "parameters": {
@@ -32,7 +32,7 @@
     },
     "containerAppImage": {
       "type": "string",
-      "defaultValue": "ghcr.io/scottholden/alttextgenaidemo:release",
+      "defaultValue": "ghcr.io/scottholden/alttextgenaidemo:sha-94e7abf",
       "metadata": {
         "description": "The container image to run"
       }
